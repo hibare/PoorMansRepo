@@ -24,60 +24,16 @@ builds:
     
 dockers:
   - image_templates:
+      - "hibare/poorman:latest"
       - "hibare/poorman:{{ .Version }}"
-    use: buildx
-    goarch: amd64
-    goos: linux
+      - "hibare/poorman:{{ .Major }}"
+      - "hibare/poorman:{{ .Major }}.{{ .Minor }}"
+      - "ghcr.io/hibare/poorman:latest"
+      - "ghcr.io/hibare/poorman:{{ .Version }}"
+      - "ghcr.io/hibare/poorman:{{ .Major }}"
+      - "ghcr.io/hibare/poorman:{{ .Major }}.{{ .Minor }}"
     dockerfile: Dockerfile
-    build_flag_templates:
-      - "--platform=linux/amd64"
-
-  - image_templates:
-      - "hibare/poorman:{{ .Version }}"
-    use: buildx
-    goarch: arm64
-    goos: linux
-    dockerfile: Dockerfile
-    build_flag_templates:
-      - "--platform=linux/arm64"
-
-  - image_templates:
-      - "hibare/poorman:{{ .Version }}"
-    use: buildx
-    goarch: arm
-    goos: linux
-    goarm: "6"
-    dockerfile: Dockerfile
-    build_flag_templates:
-      - "--platform=linux/arm/v6"
-
-  - image_templates:
-      - "hibare/poorman:{{ .Version }}"
-    use: buildx
-    goarch: arm
-    goos: linux
-    goarm: "7"
-    dockerfile: Dockerfile
-    build_flag_templates:
-      - "--platform=linux/arm/v7"
-
-docker_manifests:
-  - name_template: 'hibare/poorman:{{ .Version }}'
-    image_templates:
-      - 'hibare/poorman:{{ .Version }}'
-  
-  - name_template: 'ghcr.io/hibare/poorman:{{ .Version }}'
-    image_templates:
-      - 'ghcr.io/hibare/poorman:{{ .Version }}'
-  
-  - name_template: 'hibare/poorman:latest'
-    image_templates:
-      - 'hibare/poorman:{{ .Version }}'
-  
-  - name_template: 'ghcr.io/hibare/poorman:latest'
-    image_templates:
-      - 'ghcr.io/hibare/poorman:{{ .Version }}'
-
+    
 signs:
   - cmd: cosign
     signature: "${artifact}.sig"
