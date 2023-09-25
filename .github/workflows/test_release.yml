@@ -14,7 +14,8 @@ jobs:
   release:
     permissions:
       contents: write
-      id-token: write
+      id-token: write # For cosign
+      packages: write # For GHCR
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
