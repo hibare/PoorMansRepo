@@ -1,6 +1,12 @@
-name: goreleaser
+name: Test / Release
 
 on:
+  pull_request:
+    branches:
+      - "main"
+      - "dev"
+    paths-ignore:
+      - "**/README.md"
   push:
     tags:
       - "*"
@@ -22,6 +28,7 @@ jobs:
           go-version-file: go.mod
 
       - name: Cosign install
+        if: ${{ github.event_name != 'pull_request' }}
         uses: sigstore/cosign-installer@main
 
       - name: Run GoReleaser
@@ -29,6 +36,6 @@ jobs:
         with:
           distribution: goreleaser
           version: latest
-          args: release --clean
+          args: ${{ github.event_name == 'pull_request' && 'release --skip=sign,publish --snapshot --clean' || 'release --clean' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
