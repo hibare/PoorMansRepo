@@ -9,13 +9,12 @@ before:
     - go test -v -cover ./...
 
 builds:
-  - binary: "healthcheck"
+  - binary: "poorman"
     env:
       - CGO_ENABLED=0
     goos:
       - linux
     goarch:
-      - "386"
       - amd64
       - arm
       - arm64
@@ -23,6 +22,85 @@ builds:
       - "6"
       - "7"
     
+dockers:
+  - image_templates:
+      - "hibare/poorman:{{ .Version }}-amd64"
+      - "hibare/poorman:latest-amd64"
+      - "ghcr.io/hibare/poorman:{{ .Version }}-amd64"
+      - "ghcr.io/hibare/poorman:latest-amd64"
+    use: buildx
+    goarch: amd64
+    goos: linux
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--platform=linux/amd64"
+
+  - image_templates:
+      - "hibare/poorman:{{ .Version }}-arm64"
+      - "hibare/poorman:latest-arm64"
+      - "ghcr.io/hibare/poorman:{{ .Version }}-arm64"
+      - "ghcr.io/hibare/poorman:latest-arm64"
+    use: buildx
+    goarch: arm64
+    goos: linux
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--platform=linux/arm64"
+
+  - image_templates:
+      - "hibare/poorman:{{ .Version }}-armv6"
+      - "hibare/poorman:latest-armv6"
+      - "ghcr.io/hibare/poorman:{{ .Version }}-armv6"
+      - "ghcr.io/hibare/poorman:latest-armv6"
+    use: buildx
+    goarch: arm
+    goos: linux
+    goarm: "6"
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--platform=linux/arm/v6"
+
+  - image_templates:
+      - "hibare/poorman:{{ .Version }}-armv7"
+      - "hibare/poorman:latest-armv7"
+      - "ghcr.io/hibare/poorman:{{ .Version }}-armv7"
+      - "ghcr.io/hibare/poorman:latest-armv7"
+    use: buildx
+    goarch: arm
+    goos: linux
+    goarm: "7"
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--platform=linux/arm/v7"
+
+docker_manifests:
+  - name_template: 'hibare/poorman:{{ .Version }}'
+    image_templates:
+      - 'hibare/poorman:{{ .Version }}-amd64'
+      - 'hibare/poorman:{{ .Version }}-arm64'
+      - 'hibare/poorman:{{ .Version }}-armv6'
+      - 'hibare/poorman:{{ .Version }}-armv7'
+  
+  - name_template: 'ghcr.io/hibare/poorman:{{ .Version }}'
+    image_templates:
+      - 'ghcr.io/hibare/poorman:{{ .Version }}-amd64'
+      - 'ghcr.io/hibare/poorman:{{ .Version }}-arm64'
+      - 'ghcr.io/hibare/poorman:{{ .Version }}-armv6'
+      - 'ghcr.io/hibare/poorman:{{ .Version }}-armv7'
+  
+  - name_template: 'hibare/poorman:latest'
+    image_templates:
+      - 'hibare/poorman:{{ .Version }}-amd64'
+      - 'hibare/poorman:{{ .Version }}-arm64'
+      - 'hibare/poorman:{{ .Version }}-armv6'
+      - 'hibare/poorman:{{ .Version }}-armv7'
+  
+  - name_template: 'ghcr.io/hibare/poorman:latest'
+    image_templates:
+      - 'ghcr.io/hibare/poorman:{{ .Version }}-amd64'
+      - 'ghcr.io/hibare/poorman:{{ .Version }}-arm64'
+      - 'ghcr.io/hibare/poorman:{{ .Version }}-armv6'
+      - 'ghcr.io/hibare/poorman:{{ .Version }}-armv7'
 
 signs:
   - cmd: cosign
