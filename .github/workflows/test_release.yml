@@ -1,6 +1,13 @@
-name: goreleaser
+name: Test / Release
 
 on:
+  pull_request:
+    branches:
+      - "main"
+      - "dev"
+    paths-ignore:
+      - "**/README.md"
+      - "**/.github"
   push:
     tags:
       - "*"
@@ -29,6 +36,9 @@ jobs:
         with:
           distribution: goreleaser
           version: latest
-          args: release --clean
+          args: |
+            ${{ if github.event_name == 'pull_request' }} release --skip=sign,publish --snapshot --clean
+            ${{ else }} release --clean
+            ${{ endif }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
