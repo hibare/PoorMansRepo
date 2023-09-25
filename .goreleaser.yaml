@@ -114,6 +114,15 @@ signs:
       - "${artifact}"
       - "--yes"
     artifacts: all
+
+docker_signs:
+- cmd: cosign
+  artifacts: all
+  output: true
+  args:
+  - 'sign'
+  - '${artifact}'
+  - '--yes'
     
 checksum:
   name_template: "checksums.txt"
