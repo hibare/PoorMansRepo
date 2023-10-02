@@ -30,7 +30,6 @@ dockers:
       - "ghcr.io/hibare/poorman:{{ .Version }}-amd64"
       - "ghcr.io/hibare/poorman:latest-amd64"
     use: buildx
-    skip_push: true
     goarch: amd64
     goos: linux
     dockerfile: Dockerfile
@@ -43,7 +42,6 @@ dockers:
       - "ghcr.io/hibare/poorman:{{ .Version }}-arm64"
       - "ghcr.io/hibare/poorman:latest-arm64"
     use: buildx
-    skip_push: true
     goarch: arm64
     goos: linux
     dockerfile: Dockerfile
@@ -56,7 +54,6 @@ dockers:
       - "ghcr.io/hibare/poorman:{{ .Version }}-armv6"
       - "ghcr.io/hibare/poorman:latest-armv6"
     use: buildx
-    skip_push: true
     goarch: arm
     goos: linux
     goarm: "6"
@@ -70,7 +67,6 @@ dockers:
       - "ghcr.io/hibare/poorman:{{ .Version }}-armv7"
       - "ghcr.io/hibare/poorman:latest-armv7"
     use: buildx
-    skip_push: true
     goarch: arm
     goos: linux
     goarm: "7"
