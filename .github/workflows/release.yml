@@ -18,4 +18,5 @@ jobs:
 
       - name: Trigger hooks
         run: |
-          echo ${{ github.event.release.tag_name }}
+          LATEST_TAG=$(gh release list | grep Latest | cut -f 3 | sed 's/^v//')
+          echo $LATEST_TAG
