@@ -46,6 +46,16 @@ jobs:
 
       - name: Update version
         run: |
-          echo "RELEASE_ID=${{ steps.release_drafter.outputs.id }}" 
-          echo "RELEASE_NAME=${{ steps.release_drafter.outputs.name }}"
-          echo "RELEASE_TAG_NAME=${{ steps.release_drafter.outputs.tag_name }}"
+          DRAFTED_VERSION="${TAG_NAME#v}"
+          CURRENT_VERSION=$(npm pkg get version --workspaces=false)
+
+          if [ "$DRAFTED_VERSION" != "$CURRENT_VERSION" ]; then
+            npm version --no-git-tag-version $RELEASE_TAG_NAME
+            git config user.name "${{ github.actor }}"
+            git config user.email "${{ github.actor }}@users.noreply.github.com"
+            git add package.json 
+            git commit -m "[Auto] Update version to $drafted_version"
+            git push origin main
+          fi
+        env:
+          TAG_NAME: ${{ steps.release_drafter.outputs.tag_name }}
