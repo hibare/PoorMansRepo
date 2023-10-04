@@ -49,7 +49,7 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         run: |
           DRAFTED_VERSION="${TAG_NAME#v}"
-          CURRENT_VERSION=$(npm pkg get draft_version --workspaces=false | tr -d '"')
+          CURRENT_VERSION=$(npm pkg get draft_version | tr -d '"')
           echo "Draft version: $DRAFTED_VERSION"
           echo "Current version: $CURRENT_VERSION"
 
@@ -58,7 +58,7 @@ jobs:
             git config user.name "${{ github.actor }}"
             git config user.email "${{ github.actor }}@users.noreply.github.com"
             git add package.json 
-            git commit -m "[Auto] Update version to $DRAFTED_VERSION"
+            git commit -m "[Auto] Update draft version to $DRAFTED_VERSION"
             git push origin main
             echo "Update version to $DRAFTED_VERSION"
           fi
