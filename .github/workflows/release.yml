@@ -1,0 +1,13 @@
+name: "Release published"
+on:
+  release:
+    types: [published]
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Get release version
+        run: echo "Release version=$(echo $GITHUB_REF | sed -e 's/refs/\tags\///')"
