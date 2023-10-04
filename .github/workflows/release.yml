@@ -14,4 +14,4 @@ jobs:
 
       - name: Trigger hooks
         run: |
-          echo ${{ github.event.release }}
+          echo "${{ toJson(github.event.release) }}"
