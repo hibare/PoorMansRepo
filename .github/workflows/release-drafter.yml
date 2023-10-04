@@ -39,3 +39,13 @@ jobs:
         #   disable-autolabeler: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        id: release_drafter
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Update version
+        run: |
+          echo "RELEASE_ID=${{ steps.release_drafter.outputs.id }}" 
+          echo "RELEASE_NAME=${{ steps.release_drafter.outputs.name }}"
+          echo "RELEASE_TAG_NAME=${{ steps.release_drafter.outputs.tag_name }}"
