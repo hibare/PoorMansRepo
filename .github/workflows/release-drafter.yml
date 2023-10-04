@@ -60,7 +60,7 @@ jobs:
             git add package.json 
             git commit -m "[Auto] Update draft version to $DRAFTED_VERSION"
             git push origin main
-            echo "Update draft version to $DRAFTED_VERSION"
+            echo "Updated draft version to $DRAFTED_VERSION"
           fi
         env:
           TAG_NAME: ${{ steps.release_drafter.outputs.tag_name }}
