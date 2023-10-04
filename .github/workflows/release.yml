@@ -1,7 +1,7 @@
 name: "Release published"
 on:
   release:
-    types: [published]
+    types: [published, edited]
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -11,3 +11,8 @@ jobs:
 
       - name: Get release version
         run: echo "Release version=$GITHUB_REF"
+
+      - name: Trigger hooks
+        run: |
+          // check if is a publish release type
+          echo ${{ github.event.release }}
