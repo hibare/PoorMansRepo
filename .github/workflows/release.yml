@@ -1,7 +1,7 @@
 name: "Release published"
 on:
   release:
-    types: [published, edited]
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -14,4 +14,4 @@ jobs:
 
       - name: Trigger hooks
         run: |
-          echo "${{ toJson(github.event.release) }}"
+          echo ${{ github.event.release.tag_name }}
