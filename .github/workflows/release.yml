@@ -12,9 +12,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-
-      - name: Get release version
-        run: echo "Release version=$GITHUB_REF"
+        with:
+          ref: main
 
       - name: Trigger hooks
         run: |
