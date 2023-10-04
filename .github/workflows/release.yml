@@ -20,3 +20,5 @@ jobs:
         run: |
           LATEST_TAG=$(gh release list | grep Latest | cut -f 3 | sed 's/^v//')
           echo $LATEST_TAG
+        env:
+          GH_TOKEN: ${{ github.token }}
