@@ -14,5 +14,4 @@ jobs:
 
       - name: Trigger hooks
         run: |
-          // check if is a publish release type
           echo ${{ github.event.release }}
