@@ -31,6 +31,7 @@ jobs:
         fi
 
     - name: Fetch latest changes from the remote
+      if: ${{ env.CONTINUE == 'true' }}
       run: git fetch origin
 
     - name: Fetch default branch
