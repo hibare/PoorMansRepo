@@ -37,12 +37,19 @@ jobs:
         echo "Default branch is $defaultBranch"
         echo "DEFAULT_BRANCH=$defaultBranch" >> $GITHUB_ENV
 
-    - name: Check if there are changes in the '$TARGET_BRANCH' branch
+    - name: Pull default branch
+      if: ${{ env.CONTINUE == 'true' }}
+      run: |
+        git pull origin $DEFAULT_BRANCH
+
+    - name: Checkout '$TARGET_BRANCH' branch
       if: ${{ env.CONTINUE == 'true' }}
       run: |
         git pull origin $TARGET_BRANCH
-        git pull origin $DEFAULT_BRANCH
 
+    - name: Check if there are changes in the '$TARGET_BRANCH' branch
+      if: ${{ env.CONTINUE == 'true' }}
+      run: |
         git rev-list --left-right --count origin/$TARGET_BRANCH...origin/$DEFAULT_BRANCH
         CHANGES_COUNT=$(git rev-list --left-right --count origin/$TARGET_BRANCH...origin/$DEFAULT_BRANCH | awk '{print $1}')
 
