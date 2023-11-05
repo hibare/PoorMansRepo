@@ -56,7 +56,7 @@ jobs:
     - name: Check if there are changes in the '$TARGET_BRANCH' branch
       if: ${{ env.CONTINUE == 'true' }}
       run: |
-        git rev-list --count origin/main...dev
+        git rev-list --count main...dev
         CHANGES_COUNT=$(git rev-list --left-right --count origin/$TARGET_BRANCH...origin/$DEFAULT_BRANCH | awk '{print $1}')
 
         if [ "$CHANGES_COUNT" -eq "0" ]; then
