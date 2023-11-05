@@ -25,6 +25,8 @@ jobs:
         DEFAULT_BRANCH=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}" | jq -r .default_branch)
         echo "Default branch: $DEFAULT_BRANCH"
 
+        git fetch
+
         git rev-list --left-right --count origin/$TARGET_BRANCH...origin/$DEFAULT_BRANCH 
         CHANGES_COUNT=$(git rev-list --left-right --count origin/$TARGET_BRANCH...origin/$DEFAULT_BRANCH | awk '{print $1}')
 
