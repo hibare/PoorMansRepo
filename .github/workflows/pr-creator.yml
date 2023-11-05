@@ -43,7 +43,7 @@ jobs:
         git fetch origin $DEFAULT_BRANCH
         git fetch origin $TARGET_BRANCH
 
-        CHANGES_COUNT=$(git rev-list --left-right --count origin/$TARGET_BRANCH...origin/$DEFAULT_BRANCH | awk '{print $1}')
+        CHANGES_COUNT=$(git rev-list --left-right --count $TARGET_BRANCH...$DEFAULT_BRANCH | awk '{print $1}')
 
         if [ "$CHANGES_COUNT" -eq "0" ]; then
           echo "No changes in the '$TARGET_BRANCH' branch. Skipping PR creation."
