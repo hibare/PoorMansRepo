@@ -40,9 +40,7 @@ jobs:
     - name: Check if there are changes in the '$TARGET_BRANCH' branch
       if: ${{ env.CONTINUE == 'true' }}
       run: |
-        git checkout origin/$TARGET_BRANCH
         git pull origin $TARGET_BRANCH
-        git checkout origin/$DEFAULT_BRANCH
         git pull origin $DEFAULT_BRANCH
 
         git rev-list --left-right --count origin/$TARGET_BRANCH...origin/$DEFAULT_BRANCH
