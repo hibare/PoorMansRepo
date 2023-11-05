@@ -8,6 +8,7 @@ on:
 env:
   TARGET_BRANCH: dev
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  CONTINUE: true
 
 jobs:
   create-pr:
@@ -23,18 +24,21 @@ jobs:
     - name: Check if PR exists from '$TARGET_BRANCH' to default
       run: |
         PR_EXISTS=$(gh pr list --head "$TARGET_BRANCH" --state open --json number | jq -r '.[].number')
+        
         if [ -n "$PR_EXISTS" ]; then
-          echo "PR already exists. Skipping PR creation."
-          exit 0
+          echo "PR exists. Skipping PR creation."
+          echo "CONTINUE=false" >> $GITHUB_ENV
         fi
 
     - name: Fetch default branch
+      if: ${{ env.CONTINUE == 'true' }}
       run: |
         defaultBranch=$(gh repo view ${{ github.repository }} --json defaultBranchRef | jq -r '.defaultBranchRef.name')
         echo "Default branch is $defaultBranch"
         echo "DEFAULT_BRANCH=$defaultBranch" >> $GITHUB_ENV
 
     - name: Check if there are changes in the '$TARGET_BRANCH' branch
+      if: ${{ env.CONTINUE == 'true' }}
       run: |
         git fetch
 
@@ -43,10 +47,11 @@ jobs:
 
         if [ "$CHANGES_COUNT" -eq "0" ]; then
           echo "No changes in the '$TARGET_BRANCH' branch. Skipping PR creation."
-          exit 0
+          echo "CONTINUE=false" >> $GITHUB_ENV
         fi
 
     - name: Create PR
+      if: ${{ env.CONTINUE == 'true' }}
       run: |
         # Create a PR from "$TARGET_BRANCH" to the default branch
         PR_URL=$(gh pr create --base "$DEFAULT_BRANCH" --head "$TARGET_BRANCH" --title "Auto-generated PR" -t "Auto-generated PR" -b "Auto-generated PR")
