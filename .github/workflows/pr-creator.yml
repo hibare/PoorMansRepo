@@ -30,7 +30,7 @@ jobs:
 
     - name: Fetch default branch
       run: |
-        defaultBranch=$(gh repo view Moni --json defaultBranchRef | jq -r '.defaultBranchRef.name')
+        defaultBranch=$(gh repo view ${{ github.repository }} --json defaultBranchRef | jq -r '.defaultBranchRef.name')
         echo "Default branch is $defaultBranch"
         echo "DEFAULT_BRANCH=$defaultBranch" >> $GITHUB_ENV
 
