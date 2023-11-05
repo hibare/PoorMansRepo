@@ -30,6 +30,9 @@ jobs:
           echo "CONTINUE=false" >> $GITHUB_ENV
         fi
 
+    - name: Fetch latest changes from the remote
+      run: git fetch origin
+
     - name: Fetch default branch
       if: ${{ env.CONTINUE == 'true' }}
       run: |
