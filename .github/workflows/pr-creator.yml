@@ -30,10 +30,6 @@ jobs:
           echo "CONTINUE=false" >> $GITHUB_ENV
         fi
 
-    - name: Fetch latest changes from the remote
-      if: ${{ env.CONTINUE == 'true' }}
-      run: git fetch origin
-
     - name: Fetch default branch
       if: ${{ env.CONTINUE == 'true' }}
       run: |
@@ -41,15 +37,21 @@ jobs:
         echo "Default branch is $defaultBranch"
         echo "DEFAULT_BRANCH=$defaultBranch" >> $GITHUB_ENV
 
+    - name: Fetch latest changes from the remote
+      if: ${{ env.CONTINUE == 'true' }}
+      run: git fetch origin
+
+    - name: Pull '$TARGET_BRANCH' branch
+      if: ${{ env.CONTINUE == 'true' }}
+      run: |
+        git checkout $TARGET_BRANCH
+        git pull origin $TARGET_BRANCH
+
     - name: Pull default branch
       if: ${{ env.CONTINUE == 'true' }}
       run: |
+        git checkout $DEFAULT_BRANCH
         git pull origin $DEFAULT_BRANCH
-
-    - name: Checkout '$TARGET_BRANCH' branch
-      if: ${{ env.CONTINUE == 'true' }}
-      run: |
-        git pull origin $TARGET_BRANCH
 
     - name: Check if there are changes in the '$TARGET_BRANCH' branch
       if: ${{ env.CONTINUE == 'true' }}
