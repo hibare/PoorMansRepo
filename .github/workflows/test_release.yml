@@ -61,7 +61,7 @@ jobs:
           if [ "${{ github.event_name }}" == "push" ] && [ "${{ github.ref }}" == "refs/heads/dev" ]; then
             DOCKER_TAGS="dev"
           else
-            DOCKER_TAGS="type=semver,pattern={{version}} \n type=semver,pattern={{major}}"
+            DOCKER_TAGS="latest \n test"
           fi
 
           echo "::set-output name=docker_tags::$DOCKER_TAGS"
