@@ -63,7 +63,8 @@ jobs:
           else
             DOCKER_TAGS="latest test"
           fi
-
+          
+          docker_tags="${docker_tags// /$'\n'}"
           echo "::set-output name=docker_tags::$DOCKER_TAGS"
         shell: bash
 
@@ -77,6 +78,7 @@ jobs:
           fi
           IMAGE_NAMES="hibare/poormansrepo ghcr.io/hibare/poormansrepo"
 
+          docker_image_names="${docker_image_names// /$'\n'}"
           echo "::set-output name=docker_image_names::$IMAGE_NAMES"
         shell: bash
 
