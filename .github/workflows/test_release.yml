@@ -87,15 +87,6 @@ jobs:
           images: ${{ steps.set-docker-image-names.outputs.docker_image_names}}
           tags: ${{ steps.set-docker-tags.outputs.docker_tags }}
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: all
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v3
-
       - name: Cache Docker layers
         uses: actions/cache@v3
         with:
