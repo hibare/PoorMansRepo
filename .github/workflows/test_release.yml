@@ -61,7 +61,7 @@ jobs:
           if [ "${{ github.event_name }}" == "push" ] && [ "${{ github.ref }}" == "refs/heads/dev" ]; then
             DOCKER_TAGS="dev"
           else
-            DOCKER_TAGS="type=semver,pattern={{version}} type=semver,pattern={{major}}"
+            DOCKER_TAGS="type=semver,pattern={{version}} \n type=semver,pattern={{major}}"
           fi
 
           echo "::set-output name=docker_tags::$DOCKER_TAGS"
@@ -73,9 +73,9 @@ jobs:
           if [ "${{ github.event_name }}" == "push" ] && [ "${{ github.ref }}" == "refs/heads/dev" ]; then
             IMAGE_NAMES="hibare/poormansrepo"
           else
-            IMAGE_NAMES="hibare/poormansrepo ghcr.io/hibare/poormansrepo"
+            IMAGE_NAMES="hibare/poormansrepo \n ghcr.io/hibare/poormansrepo"
           fi
-          IMAGE_NAMES="hibare/poormansrepo ghcr.io/hibare/poormansrepo"
+          IMAGE_NAMES="hibare/poormansrepo \n ghcr.io/hibare/poormansrepo"
 
           echo "::set-output name=docker_image_names::$IMAGE_NAMES"
         shell: bash
@@ -84,7 +84,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ steps.set-docker-image-names.outputs.docker_image_names}}
+          images: ${{ steps.set-docker-image-names.outputs.docker_image_names }}
           tags: ${{ steps.set-docker-tags.outputs.docker_tags }}
 
       - name: Cache Docker layers
