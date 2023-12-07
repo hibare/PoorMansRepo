@@ -53,7 +53,7 @@ jobs:
       id-token: write # For cosign
       packages: write # For GHCR
     needs: build-input
-    uses: hibare/.github/.github/workflows/shared/docker-image-build-publish.yml@main
+    uses: hibare/.github/.github/workflows/docker-image-build-publish.yml@main
     with:
       image_names: ${{ needs.build-input.outputs.docker_image_names }}
       tags: ${{ needs.build-input.outputs.docker_tags }}
