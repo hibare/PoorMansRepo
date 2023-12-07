@@ -60,6 +60,8 @@ jobs:
       tags: ${{ needs.build-input.outputs.docker_tags }}
       build_args: VERSION=test FOO=bar
       platforms: linux/amd64
+      push_dockerhub: ${{ github.event_name != 'pull_request' }}
+      push_ghcr: ${{ github.event_name != 'pull_request' }}
     secrets: 
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
