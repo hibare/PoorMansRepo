@@ -20,11 +20,10 @@ jobs:
     uses: hibare/.github/.github/workflows/docker-image-build-publish.yml@main
     with:
       image_names: hibare/poormanrepo ghcr.io/hibare/poormanrepo
-      tags: test latest
+      tags: test foo
       build_args: VERSION=test FOO=bar
       platforms: linux/amd64
     secrets: 
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-      
