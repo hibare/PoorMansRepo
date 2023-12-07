@@ -30,7 +30,7 @@ jobs:
           elif [ "${{ github.event_name }}" == "pull_request" ]; then
             DOCKER_TAGS="test"
           else
-            DOCKER_TAGS="test bar"
+            DOCKER_TAGS="type=semver,pattern={{version}} type=semver,pattern={{major}}"
           fi
           
           echo "docker_tags=$DOCKER_TAGS" >> $GITHUB_OUTPUT
