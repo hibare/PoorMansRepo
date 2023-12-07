@@ -17,13 +17,15 @@ jobs:
       contents: write
       id-token: write # For cosign
       packages: write # For GHCR
-    uses: hibare/.github/.github/workflows/docker-image-build-publish.yml@main
-    with:
-      image_names: hibare/poormanrepo ghcr.io/hibare/poormanrepo
-      tags: test foo
-      build_args: VERSION=test FOO=bar
-      platforms: linux/amd64
-    secrets: 
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: hibare/.github/.github/workflows/docker-image-build-publish.yml@main
+        with:
+          image_names: hibare/poormanrepo ghcr.io/hibare/poormanrepo
+          tags: test foo
+          build_args: VERSION=test FOO=bar
+          platforms: linux/amd64
+
 
