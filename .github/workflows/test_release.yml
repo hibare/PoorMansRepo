@@ -23,4 +23,6 @@ jobs:
       tags: test latest
       build_args: VERSION=test FOO=bar
       platforms: linux/amd64
-    secrets: inherit
+    secrets: 
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
