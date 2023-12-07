@@ -24,7 +24,6 @@ jobs:
       - name: Set Docker Tags
         id: set-docker-tags
         run: |
-          DOCKER_TAGS="unknown"
           if [ "${{ github.event_name }}" == "push" ] && [ "${{ github.ref }}" == "refs/heads/dev" ]; then
             DOCKER_TAGS="dev"
           elif [ "${{ github.event_name }}" == "pull_request" ]; then
@@ -54,7 +53,7 @@ jobs:
       id-token: write # For cosign
       packages: write # For GHCR
     needs: build-input
-    uses: hibare/.github/.github/workflows/docker-image-build-publish.yml@main
+    uses: hibare/.github/.github/workflows/shared/docker-image-build-publish.yml@main
     with:
       image_names: ${{ needs.build-input.outputs.docker_image_names }}
       tags: ${{ needs.build-input.outputs.docker_tags }}
