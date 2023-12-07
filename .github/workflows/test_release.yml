@@ -61,10 +61,9 @@ jobs:
           if [ "${{ github.event_name }}" == "push" ] && [ "${{ github.ref }}" == "refs/heads/dev" ]; then
             DOCKER_TAGS="dev"
           else
-            DOCKER_TAGS="latest test"
+            DOCKER_TAGS="latest,test"
           fi
           
-          DOCKER_TAGS="${DOCKER_TAGS// /$'\n'}"
           echo "::set-output name=docker_tags::$DOCKER_TAGS"
         shell: bash
 
@@ -76,9 +75,8 @@ jobs:
           else
             IMAGE_NAMES="hibare/poormansrepo ghcr.io/hibare/poormansrepo"
           fi
-          IMAGE_NAMES="hibare/poormansrepo ghcr.io/hibare/poormansrepo"
+          IMAGE_NAMES="hibare/poormansrepo,ghcr.io/hibare/poormansrepo"
 
-          IMAGE_NAMES="${IMAGE_NAMES// /$'\n'}"
           echo "::set-output name=docker_image_names::$IMAGE_NAMES"
         shell: bash
 
