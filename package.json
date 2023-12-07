@@ -1,6 +1,6 @@
 {
   "name": "poormansrepo",
-  "version": "0.0.37",
+  "version": "0.0.38",
   "description": "Test repo",
   "main": "index.js",
   "scripts": {
