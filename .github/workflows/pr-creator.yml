@@ -13,7 +13,7 @@ jobs:
       pull-requests: write
 
     steps:
-      - name: Checkout code
+      - name: Checkout code 
         uses: actions/checkout@v2
 
       - name: Set up Git
@@ -38,8 +38,14 @@ jobs:
           CHANGES=$(git diff --name-only origin/main origin/dev)
           echo "::set-output name=changes::$CHANGES"
 
+      - name: Check for existing PR
+        id: existing_pr
+        run: |
+          EXISTING_PR=$(gh pr list --base main --head dev --state open --json number)
+          echo "::set-output name=existing_pr::$EXISTING_PR"
+
       - name: Create PR
-        if: ${{ steps.check_changes.outputs.changes != '' }}
+        if: ${{ steps.check_changes.outputs.changes != '' && steps.existing_pr.outputs.existing_pr == '[]' }}
         run: |
           gh pr create --base main --head dev --title "Auto-generated PR from Dev to Main" --body "This is an automated PR created by GitHub Actions."
         env:
