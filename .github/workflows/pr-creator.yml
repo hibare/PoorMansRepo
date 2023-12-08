@@ -1,6 +1,7 @@
 name: Create PR on Friday Midnight IST
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 18 * * 5' # Runs every Friday midnight IST
 
