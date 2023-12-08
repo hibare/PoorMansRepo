@@ -1,6 +1,6 @@
 {
   "name": "poormansrepo",
-  "version": "0.0.34",
+  "version": "0.0.39",
   "description": "Test repo",
   "main": "index.js",
   "scripts": {
@@ -16,5 +16,5 @@
     "url": "https://github.com/hibare/PoorMansRepo/issues"
   },
   "homepage": "https://github.com/hibare/PoorMansRepo#readme",
-  "draft_version": "0.0.36"
+  "draft_version": "0.0.39"
 }
