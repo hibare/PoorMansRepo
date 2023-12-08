@@ -14,5 +14,3 @@ jobs:
     with:
       base_branch: main
       head_branch: dev
-
-      
