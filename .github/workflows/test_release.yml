@@ -24,7 +24,6 @@ jobs:
       - name: Set Docker Tags
         id: set-docker-tags
         run: |
-          DOCKER_TAGS="unknown"
           if [ "${{ github.event_name }}" == "push" ] && [ "${{ github.ref }}" == "refs/heads/dev" ]; then
             DOCKER_TAGS="dev"
           elif [ "${{ github.event_name }}" == "pull_request" ]; then
@@ -48,7 +47,7 @@ jobs:
           echo "docker_image_names=$IMAGE_NAMES" >> $GITHUB_OUTPUT
         shell: bash
   
-  release:
+  docker-image-build-publish:
     permissions:
       contents: write
       id-token: write # For cosign
@@ -65,6 +64,4 @@ jobs:
     secrets: 
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
-
       
