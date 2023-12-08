@@ -36,6 +36,7 @@ jobs:
         id: check_changes
         run: |
           CHANGES=$(git diff --name-only origin/main origin/dev)
+          echo "Changes: $CHANGES"
           echo "::set-output name=changes::$CHANGES"
 
       - name: Check for existing PR
