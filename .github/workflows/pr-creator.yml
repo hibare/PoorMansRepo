@@ -43,6 +43,8 @@ jobs:
         run: |
           EXISTING_PR=$(gh pr list --base main --head dev --state open --json number)
           echo "::set-output name=existing_pr::$EXISTING_PR"
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - name: Create PR
         if: ${{ steps.check_changes.outputs.changes != '' && steps.existing_pr.outputs.existing_pr == '[]' }}
