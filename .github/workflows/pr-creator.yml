@@ -22,7 +22,6 @@ jobs:
         run: |
           TEMP_BRANCH="temp-branch-$(date +'%Y%m%d-%H%M%S')"
           git checkout -b $TEMP_BRANCH
-          git push origin $TEMP_BRANCH
 
       - name: Fetch branches
         run: git fetch origin main:main dev:dev
