@@ -30,7 +30,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
 
       - name: Create PR
-        if: ${{ steps.check_changes.outputs.changes != '' && steps.existing_pr.outputs.existing_pr == '[]' }}
+        if: ${{ steps.existing_pr.outputs.existing_pr == '[]' }}
         run: |
           output=$(gh pr create --base main --head dev --title "Auto-generated PR from Dev to Main" --body "This is an automated PR created by GitHub Actions." 2>&1 || true)
           if [[ "$output" =~ https://github.com/.*pull/[0-9]+ ]]; then
