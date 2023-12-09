@@ -24,14 +24,21 @@ jobs:
       - name: Set Docker Tags
         id: set-docker-tags
         run: |
-          if [ "${{ github.event_name }}" == "push" ] && [ "${{ github.ref }}" == "refs/heads/dev" ]; then
-            DOCKER_TAGS="dev"
+          DOCKER_TAGS=""
+          
+          if [ "${{ github.event_name }}" == "push" ]; then
+            if [ "${{ github.ref }}" == "refs/heads/dev" ]; then
+              DOCKER_TAGS="dev"
+            elif [[ "${{ github.ref }}" == "refs/tags/v"* ]]; then
+              DOCKER_TAGS="type=semver,pattern={{version}} type=semver,pattern={{major}}"
+            fi
           elif [ "${{ github.event_name }}" == "pull_request" ]; then
             DOCKER_TAGS="test"
           else
-            DOCKER_TAGS="type=semver,pattern={{version}} type=semver,pattern={{major}}"
+            echo "Unknown event: ${{ github.event_name }}"
+            exit 1
           fi
-          
+
           echo "docker_tags=$DOCKER_TAGS" >> $GITHUB_OUTPUT
         shell: bash
 
@@ -57,7 +64,6 @@ jobs:
     with:
       image_names: ${{ needs.build-input.outputs.docker_image_names }}
       tags: ${{ needs.build-input.outputs.docker_tags }}
-      build_args: VERSION=test FOO=bar
       platforms: linux/amd64
       push_dockerhub: ${{ github.event_name != 'pull_request' }}
       push_ghcr: ${{ github.event_name != 'pull_request' }}
