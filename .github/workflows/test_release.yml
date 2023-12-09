@@ -23,14 +23,15 @@ jobs:
     steps:
       - name: Set Docker Tags
         id: set-docker-tags
-        run: |
-          DOCKER_TAGS=""
-          
+        run: |          
           if [ "${{ github.event_name }}" == "push" ]; then
             if [ "${{ github.ref }}" == "refs/heads/dev" ]; then
               DOCKER_TAGS="dev"
             elif [[ "${{ github.ref }}" == "refs/tags/v"* ]]; then
               DOCKER_TAGS="type=semver,pattern={{version}} type=semver,pattern={{major}}"
+            else
+              echo "Unknown ref: ${{ github.ref }}"
+              exit 1
             fi
           elif [ "${{ github.event_name }}" == "pull_request" ]; then
             DOCKER_TAGS="test"
@@ -45,11 +46,7 @@ jobs:
       - name: Set Docker Image Names
         id: set-docker-image-names
         run: |
-          if [ "${{ github.event_name }}" == "push" ] && [ "${{ github.ref }}" == "refs/heads/dev" ]; then
-            IMAGE_NAMES="hibare/poormansrepo"
-          else
-            IMAGE_NAMES="hibare/poormansrepo ghcr.io/hibare/poormansrepo"
-          fi
+          IMAGE_NAMES="hibare/poormansrepo ghcr.io/hibare/poormansrepo"
           
           echo "docker_image_names=$IMAGE_NAMES" >> $GITHUB_OUTPUT
         shell: bash
@@ -60,7 +57,7 @@ jobs:
       id-token: write # For cosign
       packages: write # For GHCR
     needs: build-input
-    uses: hibare/.github/.github/workflows/docker-image-build-publish.yml@main
+    uses: hibare/.github/.github/workflows/docker-image-build-publish.yml@9ada3b2fcf72806105672aba05f4ac7f97e2da12 # v0.1.0
     with:
       image_names: ${{ needs.build-input.outputs.docker_image_names }}
       tags: ${{ needs.build-input.outputs.docker_tags }}
