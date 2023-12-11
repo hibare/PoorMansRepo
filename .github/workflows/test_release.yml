@@ -60,4 +60,5 @@ jobs:
           push_dockerhub: ${{ github.event_name != 'pull_request' }}
           push_ghcr: ${{ github.event_name != 'pull_request' }}
         env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
