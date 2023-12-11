@@ -1,0 +1,9 @@
+name: Test shared wf
+
+on:
+    workflow_dispatch:
+
+
+jobs:
+    test-shared-wf:
+        uses: hibare/.github/.github/workflows/test-shared-wf.yml@test-shared-wf
