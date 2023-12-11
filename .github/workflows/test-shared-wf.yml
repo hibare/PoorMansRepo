@@ -9,4 +9,5 @@ jobs:
         name: test shared wf
         runs-on: ubuntu-latest
         steps:
-            - uses: hibare/.github/test-workflow@test-shared-wf
+            - name: test shared wf
+              uses: hibare/.github/github/shared-workflows/test-workflow@test-shared-wf
