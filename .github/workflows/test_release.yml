@@ -51,20 +51,13 @@ jobs:
           echo "docker_image_names=$IMAGE_NAMES" >> $GITHUB_OUTPUT
         shell: bash
   
-  docker-image-build-publish:
-    permissions:
-      contents: write
-      id-token: write # For cosign
-      packages: write # For GHCR
-    needs: build-input
-    uses: hibare/.github/.github/workflows/docker-image-build-publish.yml@9ada3b2fcf72806105672aba05f4ac7f97e2da12 # v0.1.0
-    with:
-      image_names: ${{ needs.build-input.outputs.docker_image_names }}
-      tags: ${{ needs.build-input.outputs.docker_tags }}
-      platforms: linux/amd64
-      push_dockerhub: ${{ github.event_name != 'pull_request' }}
-      push_ghcr: ${{ github.event_name != 'pull_request' }}
-    secrets: 
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Docker build & publish    
+        uses: hibare/.github/github/shared-workflows/docker-image-build-publish@9ada3b2fcf72806105672aba05f4ac7f97e2da12 # v0.1.0
+        with:
+          image_names: ${{ steps.set-docker-image-names.outputs.docker_image_names }}
+          tags: ${{ steps.set-docker-tags.outputs.docker_tags }}
+          platforms: linux/amd64
+          push_dockerhub: ${{ github.event_name != 'pull_request' }}
+          push_ghcr: ${{ github.event_name != 'pull_request' }}
+
       
