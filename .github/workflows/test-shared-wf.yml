@@ -6,4 +6,4 @@ on:
 
 jobs:
     test-shared-wf:
-        uses: hibare/.github/.github/workflows/test-shared-wf.yml@test-shared-wf
+        uses: hibare/.github/test-shared-wf.yml@test-shared-wf
