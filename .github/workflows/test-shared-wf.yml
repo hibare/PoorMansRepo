@@ -6,4 +6,8 @@ on:
 
 jobs:
     test-shared-wf:
-        uses: hibare/.github/.github/workflows/test-shared-wf.yml@test-shared-wf
+        name: test shared wf
+        runs-on: ubuntu-latest
+        steps:
+            - name: test shared wf
+              uses: hibare/.github/github/shared-workflows/test-workflow@test-shared-wf

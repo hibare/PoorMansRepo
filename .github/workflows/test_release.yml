@@ -16,55 +16,54 @@ on:
 jobs:
   build-input:
     runs-on: ubuntu-latest
-    outputs:
-      docker_tags: ${{ steps.set-docker-tags.outputs.docker_tags }}
-      docker_image_names: ${{ steps.set-docker-image-names.outputs.docker_image_names }}
+    permissions:
+      contents: write
+      # id-token: write # For cosign
+      packages: write # For GHCR
 
     steps:
-      - name: Set Docker Tags
-        id: set-docker-tags
-        run: |          
+      - name: Set Metadata
+        id: set-metadata
+        run: |  
+          DOCKER_TAGS="unknown"
+          VERSION="unknown"
+          IMAGE_NAMES="hibare/poormansrepo ghcr.io/hibare/poormansrepo"
+
           if [ "${{ github.event_name }}" == "push" ]; then
             if [ "${{ github.ref }}" == "refs/heads/dev" ]; then
-              DOCKER_TAGS="dev"
+              DOCKER_TAGS="next"
+              VERSION="next"
             elif [[ "${{ github.ref }}" == "refs/tags/v"* ]]; then
               DOCKER_TAGS="type=semver,pattern={{version}} type=semver,pattern={{major}}"
+              VERSION="${GITHUB_REF#refs/tags/v}"
             else
               echo "Unknown ref: ${{ github.ref }}"
               exit 1
             fi
           elif [ "${{ github.event_name }}" == "pull_request" ]; then
             DOCKER_TAGS="test"
+            VERSION="test"
           else
             echo "Unknown event: ${{ github.event_name }}"
             exit 1
           fi
 
           echo "docker_tags=$DOCKER_TAGS" >> $GITHUB_OUTPUT
+          echo "docker_image_names=$IMAGE_NAMES" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
         shell: bash
 
-      - name: Set Docker Image Names
-        id: set-docker-image-names
-        run: |
-          IMAGE_NAMES="hibare/poormansrepo ghcr.io/hibare/poormansrepo"
+      - name: Docker build & publish    
+        uses: hibare/.github/github/shared-workflows/docker-image-build-publish@030fa3508e984f9e90dd35f107883798e85e86e4 # v0.2.0
+        with:
+          image_names: ${{ steps.set-metadata.outputs.docker_image_names }}
+          tags: ${{ steps.set-metadata.outputs.docker_tags }}
+          platforms: linux/amd64
+          push_dockerhub: ${{ github.event_name != 'pull_request' }}
+          push_ghcr: ${{ github.event_name != 'pull_request' }}
+          build_args: VERSION=${{ steps.set-metadata.outputs.version }}
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
-          echo "docker_image_names=$IMAGE_NAMES" >> $GITHUB_OUTPUT
-        shell: bash
-  
-  docker-image-build-publish:
-    permissions:
-      contents: write
-      id-token: write # For cosign
-      packages: write # For GHCR
-    needs: build-input
-    uses: hibare/.github/.github/workflows/docker-image-build-publish.yml@9ada3b2fcf72806105672aba05f4ac7f97e2da12 # v0.1.0
-    with:
-      image_names: ${{ needs.build-input.outputs.docker_image_names }}
-      tags: ${{ needs.build-input.outputs.docker_tags }}
-      platforms: linux/amd64
-      push_dockerhub: ${{ github.event_name != 'pull_request' }}
-      push_ghcr: ${{ github.event_name != 'pull_request' }}
-    secrets: 
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      
