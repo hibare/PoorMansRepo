@@ -54,7 +54,7 @@ jobs:
         shell: bash
 
       - name: Docker build & publish    
-        uses: hibare/.github/github/shared-workflows/docker-image-build-publish@fix # v0.2.0
+        uses: hibare/.github/github/shared-workflows/docker-image-build-publish@main # v0.2.0
         with:
           image_names: ${{ steps.set-metadata.outputs.docker_image_names }}
           tags: ${{ steps.set-metadata.outputs.docker_tags }}
