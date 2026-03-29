@@ -13,6 +13,9 @@ on:
     branches:
       - "dev"
 
+permissions:
+  contents: read
+
 jobs:
   build-input:
     runs-on: ubuntu-latest
@@ -22,6 +25,11 @@ jobs:
       packages: write # For GHCR
 
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
+        with:
+          egress-policy: audit
+
       - name: Set Metadata
         id: set-metadata
         run: |  
@@ -54,7 +62,7 @@ jobs:
         shell: bash
 
       - name: Docker build & publish    
-        uses: hibare/.github/github/shared-workflows/docker-image-build-publish@main # v0.2.0
+        uses: hibare/.github/github/shared-workflows/docker-image-build-publish@82e172b8dba1281814c52430a1b173139fd44532 # main
         with:
           image_names: ${{ steps.set-metadata.outputs.docker_image_names }}
           tags: ${{ steps.set-metadata.outputs.docker_tags }}
