@@ -5,11 +5,11 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   id-token: write
   contents: read
-workflow_dispatch:
 
 jobs:
   build:
