@@ -1,4 +1,4 @@
-name: CI with GATE
+name: GATE test
 
 on:
   push:
@@ -27,6 +27,7 @@ jobs:
           gate-server-url: https://gate.int.hibare.in
           target-repository: ${{ github.repository }}
           requested-permissions: '{"contents":"write","pull_requests":"write","issues":"write"}'
+          tailscale-enabled: true
 
       - name: Use token
         env:
