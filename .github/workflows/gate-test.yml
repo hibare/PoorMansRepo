@@ -20,14 +20,13 @@ jobs:
       - name: Get GitHub token via GATE
         id: gate
         uses: hibare/.github/github/shared-workflows/gate@feat/gate-exchange-action
-        env:
-          TS_OAUTH_CLIENT_ID: ${{ secrets.TS_OAUTH_CLIENT_ID }}
-          TS_OAUTH_SECRET: ${{ secrets.TS_OAUTH_SECRET }}
         with:
           gate-server-url: https://gate.int.hibare.in
           target-repository: ${{ github.repository }}
           requested-permissions: '{"contents":"write","pull_requests":"write","issues":"write"}'
           tailscale-enabled: true
+          ts-oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          ts-oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
 
       - name: Use token
         env:
