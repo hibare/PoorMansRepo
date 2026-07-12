@@ -1,0 +1,20 @@
+version: "1.0"
+
+trust_policies:
+  # CI workflow: read, write, PR access
+  - name: "ci"
+    description: "CI workflow with read/write/PR permissions"
+    issuer: "https://token.actions.githubusercontent.com"
+    rules:
+      - name: "main-or-pr"
+        logic: OR
+        conditions:
+          - field: "ref"
+            pattern: "^refs/heads/main$"
+          - field: "event_name"
+            pattern: "^pull_request$"
+    permissions:
+      contents: write
+      pull_requests: write
+      issues: write
+    token_ttl: 900
