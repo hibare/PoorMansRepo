@@ -13,6 +13,8 @@ trust_policies:
             pattern: "^refs/heads/main$"
           - field: "event_name"
             pattern: "^pull_request$"
+          - field: "event_name"
+            pattern: "^workflow_dispatch$"
     permissions:
       contents: write
       pull_requests: write
