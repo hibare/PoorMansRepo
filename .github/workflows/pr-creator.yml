@@ -5,6 +5,9 @@ on:
   schedule:
     - cron: '0 18 * * 5' # Runs every Friday midnight IST
 
+permissions:
+  contents: read
+
 jobs:
   create-pr:
     permissions:

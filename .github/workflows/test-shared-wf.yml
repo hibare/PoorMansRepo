@@ -9,5 +9,10 @@ jobs:
         name: test shared wf
         runs-on: ubuntu-latest
         steps:
+            - name: Harden the runner (Audit all outbound calls)
+              uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
+              with:
+                egress-policy: audit
+
             - name: test shared wf
-              uses: hibare/.github/github/shared-workflows/test-workflow@test-shared-wf
+              uses: hibare/.github/github/shared-workflows/test-workflow@75317e6cc3e5395790244c79d61a30b79197d473 # test-shared-wf
