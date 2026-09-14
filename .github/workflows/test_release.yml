@@ -1,17 +1,18 @@
 name: Test - Release
 
 on:
-  pull_request:
-    branches:
-      - "main"
-      - "dev"
-    paths-ignore:
-      - "**/README.md"
-  push:
-    tags:
-      - "v*"
-    branches:
-      - "dev"
+  # pull_request:
+  #   branches:
+  #     - "main"
+  #     - "dev"
+  #   paths-ignore:
+  #     - "**/README.md"
+  # push:
+  #   tags:
+  #     - "v*"
+  #   branches:
+  #     - "dev"
+  workflow_dispatch:
 
 jobs:
   build-input:
