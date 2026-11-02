@@ -1,0 +1,48 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c # v6.0.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-json
+      - id: check-toml
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+      - id: check-shebang-scripts-are-executable
+      - id: check-executables-have-shebangs
+      - id: check-case-conflict
+      - id: check-symlinks
+      - id: check-illegal-windows-names
+      - id: fix-byte-order-marker
+
+  - repo: https://github.com/tekwizely/pre-commit-golang
+    rev: f298c082154b2cb239fac06a4f452368e66e66dd # v1.0.0-rc.4
+    hooks:
+      - id: go-mod-tidy
+      - id: go-fmt
+      - id: golangci-lint-mod
+        args: [--fix]
+      - id: go-test-mod
+
+  - repo: https://github.com/hadolint/hadolint
+    rev: 2eece55955ced00200be9729e9728cb7dacca505 # v2.15.1
+    hooks:
+      - id: hadolint-docker
+        name: Lint Dockerfiles
+        description: Runs hadolint Docker image to lint Dockerfiles
+        language: docker_image
+        types: ["dockerfile"]
+        entry: ghcr.io/hadolint/hadolint hadolint
+
+  - repo: https://github.com/rhysd/actionlint
+    rev: 914e7df21a07ef503a81201c76d2b11c789d3fca # v1.7.12
+    hooks:
+      - id: actionlint
+
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: 341e2a331ba578029e66c2e01183e7a6b5ca9ab4 # v0.24.0
+    hooks:
+      - id: markdownlint-cli2-docker
